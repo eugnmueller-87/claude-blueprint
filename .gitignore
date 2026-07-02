@@ -1,0 +1,62 @@
+# ─── SECRETS (never commit — mandatory core) ───────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+id_rsa
+id_ed25519
+credentials.json
+service-account*.json
+secrets/
+.npmrc
+.pypirc
+
+# ─── Python ────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+
+# ─── Data / AI artifacts (never commit dumps or vector stores) ─
+*.parquet
+*.pkl
+*.pickle
+*.h5
+*.feather
+*.duckdb
+*.sqlite
+*.db
+*.faiss
+*.index
+*.npy
+*.npz
+data/raw/
+data/processed/
+# NOTE: keep a small fixture CSV by force-adding: git add -f tests/fixtures/x.csv
+
+# ─── JS / TS (Telegram bot, tooling) ───────────────────────
+node_modules/
+.next/
+*.tsbuildinfo
+
+# ─── OS / editor ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# ─── Claude local overrides (per-machine, may hold trusted perms) ─
+.claude/settings.local.json

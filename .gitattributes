@@ -1,0 +1,25 @@
+# Force LF on shell scripts. The #1 Windows gotcha: if a hook is checked out
+# with CRLF, Git Bash fails with `bad interpreter: /usr/bin/env bash^M` and the
+# hook silently never runs. Pin LF so hooks work regardless of core.autocrlf.
+*.sh text eol=lf
+
+# Keep other line-ending-sensitive text files normalized to LF too.
+*.py   text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+
+# Windows batch/PowerShell stay CRLF (native tooling expects it).
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Treat known binaries as binary (no EOL munging, no diff noise).
+*.png    binary
+*.jpg    binary
+*.pdf    binary
+*.xlsx   binary
+*.pbix   binary
+*.parquet binary
