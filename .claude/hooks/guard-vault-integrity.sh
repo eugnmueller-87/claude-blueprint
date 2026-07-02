@@ -17,12 +17,16 @@ emit() {
   exit 2
 }
 
-if ! command -v jq >/dev/null 2>&1; then
-  emit deny "jq is required for the vault-integrity hook but is not installed."
-fi
-
 INPUT=$(cat)
-FILE_PATH=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null || true)
+
+# Extract file_path. Prefer jq; fall back to grep/sed so this WORKS without jq
+# (not installed on this Windows box). Blanket-denying on missing jq would block
+# EVERY edit in the vault. If no path found, allow (exit 0).
+if command -v jq >/dev/null 2>&1; then
+  FILE_PATH=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null || true)
+else
+  FILE_PATH=$(printf '%s' "$INPUT" | grep -oE '"file_path"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed -E 's/.*:[[:space:]]*"([^"]*)"/\1/')
+fi
 [ -z "$FILE_PATH" ] && exit 0
 
 # Normalise to forward slashes (Git Bash may hand us either) and lower-case.
