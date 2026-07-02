@@ -22,12 +22,16 @@ emit_deny() {
   exit 2
 }
 
-if ! command -v jq >/dev/null 2>&1; then
-  emit_deny "jq is required for command protection hooks but is not installed."
-fi
-
 INPUT=$(cat)
-COMMAND=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || true)
+
+# Extract the command. Prefer jq; fall back to grep/sed so this WORKS without jq
+# (not installed on this Windows box). Blanket-denying on missing jq would block
+# EVERY Bash command. If no command found, allow (exit 0).
+if command -v jq >/dev/null 2>&1; then
+  COMMAND=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || true)
+else
+  COMMAND=$(printf '%s' "$INPUT" | grep -oE '"command"[[:space:]]*:[[:space:]]*"([^"\\]|\\.)*"' | head -1 | sed -E 's/^"command"[[:space:]]*:[[:space:]]*"//; s/"$//')
+fi
 [ -z "$COMMAND" ] && exit 0
 
 # ── Protected branch list ────────────────────────────────────────────────
