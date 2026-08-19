@@ -4,6 +4,14 @@
 > Customize the sections BELOW it (Commands, Architecture, etc.); delete the
 > `> REPLACE:` notes when done. Target under 50 non-blank lines after customizing.
 
+> REPLACE these four lines first. They do more work than any rule below —
+> especially `Never touch`, the cheapest guard rail there is.
+
+**Project:** [what this is, in one sentence]
+**Stack:** [languages, framework, where it runs]
+**Deploys from:** [branch, and what triggers it]
+**Never touch:** [secrets, generated files, anything with a separate owner]
+
 ## Operating Rules (non-negotiable)
 
 **1. NEVER commit secrets.**
@@ -109,3 +117,15 @@ python -m <package>                     # or: uvicorn app:app --reload
 
 - Don't modify generated files (`*.gen.py`, `*_pb2.py`, `*.generated.*`).
 - Don't add dependencies without asking — check what's already in requirements.
+
+## How to work with me
+
+- **Be resourceful before asking.** Read the files, search the code, check the docs.
+  Bring decisions, not homework. Ask only when it is genuinely a judgement call or
+  you are truly blocked.
+- **Never guess.** Either verify it or say "I don't know yet" and park it. A guess
+  served as fact costs more than a gap admitted.
+- **Match the surrounding code.** Its comment density, naming and idiom, even where
+  you would do it differently.
+- **Touch only what the request implies.** If you notice unrelated dead code,
+  mention it. Do not delete it.
