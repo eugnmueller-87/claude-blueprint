@@ -1,0 +1,62 @@
+{
+  "name": "claude-blueprint",
+  "id": "claude-blueprint",
+  "owner": {
+    "name": "Eugen Müller",
+    "url": "https://github.com/eugnmueller-87"
+  },
+  "metadata": {
+    "description": "Guard rails that hold: hooks that block secrets deterministically, plus CLAUDE.md rules each anchored to a real incident.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "claude-blueprint",
+      "source": "./",
+      "description": "20 skills for shipping, testing, debugging and reviewing, plus the incident-rule skill that turns a lost afternoon into a permanent CLAUDE.md rule. The hooks, reviewers and rules come with seed.sh rather than the plugin install.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Eugen Müller",
+        "url": "https://github.com/eugnmueller-87"
+      },
+      "license": "MIT",
+      "keywords": [
+        "boilerplate",
+        "guardrails",
+        "hooks",
+        "secrets",
+        "claude-md",
+        "code-review",
+        "python"
+      ],
+      "category": "workflow",
+      "strict": false,
+      "skills": [
+        "./.claude/skills/",
+        "./.claude/skills/optional/"
+      ]
+    },
+    {
+      "name": "incident-rule",
+      "source": "./",
+      "description": "One skill, standalone. Turns the afternoon you just lost into a permanent CLAUDE.md rule in your own words, with the incident attached. Refuses to write one when nothing was actually at stake.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Eugen Müller",
+        "url": "https://github.com/eugnmueller-87"
+      },
+      "license": "MIT",
+      "keywords": [
+        "claude-md",
+        "postmortem",
+        "retrospective",
+        "documentation"
+      ],
+      "category": "workflow",
+      "strict": false,
+      "skills": [
+        "./.claude/skills/incident-rule"
+      ]
+    }
+  ]
+}

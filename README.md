@@ -52,6 +52,24 @@ All nine rules in `CLAUDE.template.md` come with the dated incident behind them 
 
 ---
 
+## Two ways to use this
+
+| | You get | You do not get |
+|---|---|---|
+| **`seed.sh`** (the main way) | Everything: hooks, rules, reviewers, skills, `CLAUDE.md` | — |
+| **Plugin install** | The 20 skills, including `incident-rule` | Hooks, rules and reviewers |
+
+**Why the split, honestly:** the hooks are wired through `.claude/settings.json`,
+which is project configuration. A plugin install cannot bring them, and hooks are
+the half of this repo that actually cannot be reasoned around. **If you only install
+the plugin, you get the advisory half.** Use `seed.sh` for a new project.
+
+```bash
+/plugin marketplace add eugnmueller-87/claude-blueprint
+```
+
+---
+
 ## Quickstart
 
 **New project:**

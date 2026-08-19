@@ -1,0 +1,26 @@
+{
+  "name": "claude-blueprint",
+  "description": "Guard rails that hold. Hooks block secrets and dangerous commands at the tool-call boundary, before the model's intent matters. The CLAUDE.md rules are each anchored to a dated incident, because a rule without a scar gets ignored.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Eugen Müller",
+    "url": "https://github.com/eugnmueller-87"
+  },
+  "homepage": "https://github.com/eugnmueller-87/claude-blueprint",
+  "repository": "https://github.com/eugnmueller-87/claude-blueprint",
+  "license": "MIT",
+  "keywords": [
+    "boilerplate",
+    "guardrails",
+    "hooks",
+    "secrets",
+    "claude-md",
+    "code-review",
+    "python",
+    "ai-agents"
+  ],
+  "skills": [
+    "./.claude/skills/",
+    "./.claude/skills/optional/"
+  ]
+}
