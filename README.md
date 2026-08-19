@@ -1,5 +1,9 @@
 # claude-blueprint
 
+[![Landing page](https://img.shields.io/badge/read-the%20one%20pager-5980a6?style=flat-square)](https://eugnmueller-87.github.io/claude-blueprint/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![Plugin](https://img.shields.io/badge/claude--code-plugin-000?style=flat-square)](#two-ways-to-use-this)
+
 **Start a Claude Code project with guard rails that hold.**
 
 One command seeds a new repo with hooks that block secrets and dangerous commands,

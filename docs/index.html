@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>claude-blueprint , guard rails that hold</title>
+<meta name="description" content="Seed a Claude Code project with guard rails that hold: hooks that block secrets deterministically, plus nine CLAUDE.md rules each anchored to a real incident.">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://eugnmueller-87.github.io/claude-blueprint/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eugnmueller-87.github.io/claude-blueprint/">
+<meta property="og:title" content="claude-blueprint">
+<meta property="og:description" content="Security is deterministic. Everything else is advisory. Hooks that block secrets before the model's intent matters, plus CLAUDE.md rules anchored to real incidents.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 fill=%22%235980a6%22/><g stroke=%22%23f2f2f3%22 stroke-width=%228%22 fill=%22none%22><rect x=%2238%22 y=%2238%22 width=%2244%22 height=%2244%22/></g></svg>">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+:root {
+  --leading: 24px;
+  --half: 12px;
+  --edge: clamp(20px, 5vw, 72px);
+  --measure: 60ch;
+  --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+}
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; text-wrap: pretty; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 var(--edge); }
+.nav { padding-inline: max(var(--edge), calc((100% - 1200px) / 2 + var(--edge))); }
+.nav a { white-space: nowrap; }
+.nav a[aria-current='location'] { color: var(--color-accent-700); }
+@media (max-width: 560px) { .nav a { display: none; } }
+
+/* , caption rules , */
+.kicker {
+  display: block; font-size: 13px; line-height: var(--half);
+  letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+  color: var(--color-accent-700);
+  font-feature-settings: "tnum" 1;
+  margin: 0 0 var(--half);
+}
+.caption-rule { height: 1px; border: 0; margin: 0 0 calc(var(--leading) - var(--half));
+  background: var(--color-divider); }
+
+/* , hero , */
+.hero { padding: calc(4 * var(--leading)) 0 calc(3 * var(--leading)); }
+.display {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: clamp(44px, 6.5vw, 92px);
+  line-height: clamp(46px, 6.8vw, 96px);
+  letter-spacing: 0.01em; text-transform: uppercase; margin: 0;
+  margin-left: -0.052em;
+  text-box: trim-both cap alphabetic;
+}
+.display .line { display: block; }
+.display .adv { color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.hero .sub { font-size: 16px; line-height: var(--leading); max-width: var(--measure);
+  margin: calc(1.5 * var(--leading) - 1cap) 0 0;
+  text-box: trim-both cap alphabetic; }
+.hero .row { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--leading); align-items: center; }
+
+/* , command line (the one-command promise, drawn as an object) , */
+.cmd { display: flex; align-items: center; gap: var(--half); flex-wrap: wrap;
+  margin-top: calc(1.5 * var(--leading));
+  border: 1px solid var(--color-divider); position: relative;
+  padding: var(--half) var(--leading); max-width: 720px; }
+.cmd code { font-family: var(--font-mono); font-size: 14px; line-height: var(--leading);
+  color: var(--color-text); flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.cmd code .dim { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.cmd .btn { flex: 0 0 auto; }
+
+/* , spec plate , */
+.sheet { padding: calc(3 * var(--leading)) 0 calc(2.5 * var(--leading)); }
+.plate { position: relative; border: 1px solid var(--color-divider); }
+.plate > .corner, .cell-frame > .corner, .cmd > .corner, .codeblock > .corner {
+  position: absolute; width: 15px; height: 15px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent); pointer-events: none; }
+.plate > .corner::before, .cell-frame > .corner::before, .cmd > .corner::before, .codeblock > .corner::before {
+  content: ""; position: absolute; left: 7px; top: 0; width: 1px; height: 100%; background: currentColor; }
+.plate > .corner::after, .cell-frame > .corner::after, .cmd > .corner::after, .codeblock > .corner::after {
+  content: ""; position: absolute; top: 7px; left: 0; width: 100%; height: 1px; background: currentColor; }
+.corner.tl { top: -8px; left: -8px; }
+.corner.tr { top: -8px; right: -8px; }
+.corner.bl { bottom: -8px; left: -8px; }
+.corner.br { bottom: -8px; right: -8px; }
+.title-block { display: flex; flex-wrap: wrap; align-items: stretch;
+  border-bottom: 1px solid var(--color-divider); }
+.title-block > span { padding: var(--half) var(--leading);
+  font-size: 13px; line-height: var(--leading); letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 600; font-feature-settings: "tnum" 1; }
+.tb-title { flex: 1; min-width: 16ch; }
+.tb-cell { border-left: 1px solid var(--color-divider); white-space: nowrap;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.spec { table-layout: fixed; }
+.spec col.c-num { width: calc(3 * var(--leading)); }
+.spec col.c-prop { width: 30%; }
+.spec col.c-val { width: 21%; }
+.spec th, .spec td { padding: var(--half) var(--leading) var(--half) 0; vertical-align: middle; }
+.spec th:first-child, .spec td:first-child { padding-left: var(--leading); }
+.spec th { font-size: 13px; line-height: var(--half); font-weight: 600;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.spec td { font-size: 15px; line-height: var(--leading); }
+.spec .s-num { font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--color-accent-700); font-feature-settings: "tnum" 1; }
+.spec .s-val { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 22px; line-height: var(--leading); letter-spacing: 0.02em;
+  font-feature-settings: "tnum" 1; white-space: nowrap; }
+.spec .s-rem { color: color-mix(in srgb, var(--color-text) 78%, transparent); }
+.spec tbody tr:last-child td { border-bottom: 0; }
+.spec tbody tr:hover { background: none; }
+.sheet-note { margin: 0; padding: var(--half) var(--leading);
+  border-top: 1px solid var(--color-divider);
+  font-size: 13px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+
+/* , sections & wireframe cells , */
+.section { padding: calc(3 * var(--leading)) 0 calc(2.5 * var(--leading)); }
+.section > .caption-rule { margin-bottom: calc(var(--leading) + 8px); }
+.section-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 32px; line-height: calc(1.5 * var(--leading)); letter-spacing: 0.02em;
+  text-transform: uppercase; margin: 0 0 var(--half); text-box: trim-both cap alphabetic; }
+.section-sub { font-size: 15px; line-height: var(--leading); max-width: var(--measure);
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  margin: calc(var(--leading) - 1cap) 0 0; text-box: trim-both cap alphabetic; }
+.cells { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 48px);
+  margin-top: calc(1.5 * var(--leading)); }
+.cells.two { grid-template-columns: repeat(2, 1fr); }
+.cell-frame { position: relative; border: 1px solid var(--color-divider);
+  padding: var(--leading); }
+.cell-frame h3 { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 22px; line-height: var(--leading); letter-spacing: 0.02em; text-transform: uppercase;
+  margin: 0; text-box: trim-both cap alphabetic; display: flex; align-items: baseline; gap: var(--half); }
+.cell-frame p { font-size: 15px; line-height: var(--leading); margin: calc(var(--leading) - 1cap) 0 0;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  text-box: trim-both cap alphabetic; }
+.cell-frame .tier { margin-bottom: var(--leading); }
+.cell-frame ul { margin: calc(var(--leading) - 1cap) 0 0; padding: 0; list-style: none;
+  font-size: 14px; line-height: var(--leading); }
+.cell-frame ul li { padding-left: calc(var(--leading) - 4px); position: relative;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent); }
+.cell-frame ul li::before { content: ""; position: absolute; left: 2px; top: 11px;
+  width: 9px; height: 1px; background: var(--color-accent); }
+.cell-frame ul code, .verdict-body code { font-family: var(--font-mono); font-size: 0.86em; }
+
+/* , the compare (rules need scars) , */
+.verdict { position: relative; border: 1px solid var(--color-divider); padding: var(--leading); }
+.verdict-tag { display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; line-height: var(--half); letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 600; margin-bottom: var(--leading); }
+.verdict-tag .mark { font-family: var(--font-mono); font-size: 14px; }
+.verdict.rejected .verdict-tag { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.verdict.approved .verdict-tag { color: var(--color-accent-700); }
+.verdict-body { font-size: 15px; line-height: var(--leading); margin: 0;
+  text-box: trim-both cap alphabetic; }
+.verdict.rejected .verdict-body { color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  max-width: 40ch; }
+.verdict .why { font-size: 13px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  margin: var(--leading) 0 0; padding-top: var(--half);
+  border-top: 1px solid var(--color-divider); text-box: trim-both cap alphabetic; }
+
+/* , the nine rules , */
+.rules { display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: calc(1.5 * var(--leading)) clamp(20px, 3vw, 48px); margin-top: calc(1.5 * var(--leading)); }
+.rule { border-top: 1px solid var(--color-divider); padding-top: var(--half); }
+.rule .r-num { font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--color-accent-700); font-feature-settings: "tnum" 1; display: block;
+  line-height: var(--leading); }
+.rule h4 { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 19px; line-height: var(--leading); letter-spacing: 0.02em; text-transform: uppercase;
+  margin: 0; }
+.rule p { font-size: 14px; line-height: var(--leading); margin: 4px 0 0;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+
+/* , quickstart code , */
+.codeblock { position: relative; border: 1px solid var(--color-divider);
+  margin-top: calc(1.5 * var(--leading)); }
+.codeblock header { display: flex; align-items: center; justify-content: space-between;
+  gap: var(--half); border-bottom: 1px solid var(--color-divider);
+  padding: var(--half) var(--leading); }
+.codeblock header span { font-size: 13px; line-height: var(--half); letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 600;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.codeblock pre { margin: 0; padding: var(--leading); overflow-x: auto;
+  font-family: var(--font-mono); font-size: 14px; line-height: var(--leading); }
+.codeblock pre .c { color: color-mix(in srgb, var(--color-text) 50%, transparent); }
+.codeblock pre .a { color: var(--color-accent-700); }
+.copy-btn { font-size: 12px; padding: 4px 10px; min-height: 0; }
+
+/* , quote , */
+.quote { padding: calc(2.5 * var(--leading)) 0 calc(3.5 * var(--leading)); }
+.quote blockquote {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: clamp(26px, 2.8vw, 36px); line-height: calc(1.5 * var(--leading));
+  letter-spacing: 0; max-width: 36ch; margin: 0;
+  text-indent: -0.316em;
+  text-box: trim-both cap alphabetic;
+}
+.quote figcaption { font-size: 15px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  margin: calc(2 * var(--leading) - 1cap) 0 0;
+  text-indent: -0.885em;
+  text-box: trim-both cap alphabetic; }
+@media (max-width: 720px) {
+  .quote blockquote, .quote figcaption { text-indent: 0; }
+}
+
+/* , close , */
+.close { padding: calc(2.5 * var(--leading)) 0 calc(2 * var(--leading)); }
+.close h3 { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 24px; line-height: var(--leading); letter-spacing: 0.02em; text-transform: uppercase;
+  margin: 0; text-box: trim-both cap alphabetic; }
+.close .sub { font-size: 15px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  margin: calc(var(--leading) - 1cap) 0 0; max-width: var(--measure); text-box: trim-both cap alphabetic; }
+.close .row { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--leading); }
+footer { padding: calc(2 * var(--leading)) 0; font-size: 13px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+
+/* , responsive , */
+@media (max-width: 980px) {
+  .rules { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 880px) {
+  .cells, .cells.two { grid-template-columns: 1fr; gap: calc(var(--leading) + 16px); }
+}
+@media (max-width: 720px) {
+  .hero { padding-top: calc(2.5 * var(--leading)); }
+  .rules { grid-template-columns: 1fr; }
+  .tb-title { flex-basis: 100%; border-bottom: 1px solid var(--color-divider); }
+  .title-block > .tb-cell { padding-inline: var(--half); flex: 1 0 auto; }
+  .tb-title + .tb-cell { border-left: 0; padding-left: var(--leading); }
+  .spec thead { position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap; }
+  .spec, .spec tbody, .spec td { display: block; }
+  .spec tr { display: grid; grid-template-columns: max-content 1fr;
+    column-gap: var(--half); row-gap: var(--half); align-items: baseline;
+    padding: var(--leading);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); }
+  .spec tr:last-child { border-bottom: 0; }
+  .spec th, .spec td { padding: 0; border: 0; }
+  .spec th:first-child, .spec td:first-child { padding-left: 0; }
+  .spec .s-num { grid-column: 1; }
+  .spec .s-prop { grid-column: 2; }
+  .spec .s-val, .spec .s-rem { grid-column: 1 / -1; }
+}
+@media (max-width: 360px) {
+  .title-block { display: grid; grid-template-columns: 1fr 1fr; }
+  .tb-title { grid-column: 1 / -1; border-bottom: 0; }
+  .title-block > .tb-cell { border-left: 0; border-top: 1px solid var(--color-divider);
+    padding-left: var(--leading); }
+  .tb-title + .tb-cell + .tb-cell { border-left: 1px solid var(--color-divider);
+    padding-left: var(--half); }
+  .tb-cell:last-child { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-brand">claude-blueprint</span>
+  <a href="#idea" aria-current="location">The idea</a>
+  <a href="#box">In the box</a>
+  <a href="#quickstart">Quickstart</a>
+  <a class="btn btn-primary" href="https://github.com/eugnmueller-87/claude-blueprint">View on GitHub</a>
+</nav>
+<div class="wrap">
+
+  <section class="hero" id="idea">
+    <h1 class="display"><span class="line">Security is deterministic.</span> <span class="line adv">Everything else is advisory.</span></h1>
+    <p class="sub">Start a Claude Code project with guard rails that hold. One command seeds a new repo with hooks that block secrets and dangerous commands before the model’s intent matters, a CLAUDE.md whose rules are anchored to real incidents, ten focused reviewers, and twenty skills.</p>
+    <div class="cmd">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <code id="seed-cmd"><span class="dim">$</span> bash /path/to/claude-blueprint/seed.sh .</code>
+      <button type="button" class="btn btn-ghost copy-btn" data-copy="bash /path/to/claude-blueprint/seed.sh .">Copy</button>
+    </div>
+    <div class="row">
+      <a class="btn btn-primary" href="#quickstart">Seed a project</a>
+      <a class="btn btn-ghost" href="https://github.com/eugnmueller-87/claude-blueprint">Read the source</a>
+    </div>
+  </section>
+
+  <section class="sheet" id="box" aria-label="claude-blueprint , contents of the box">
+    <div class="plate">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <header class="title-block">
+        <span class="tb-title">claude-blueprint , contents of the box</span>
+        <span class="tb-cell">CB-100</span>
+        <span class="tb-cell">MIT</span>
+        <span class="tb-cell">Sheet 01 of 03</span>
+      </header>
+      <table class="table spec">
+        <colgroup><col class="c-num"><col class="c-prop"><col class="c-val"><col class="c-rem"></colgroup>
+        <thead>
+          <tr><th scope="col">No.</th><th scope="col">Component</th><th scope="col">Count</th><th scope="col">Remark</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="s-num">01</td><td class="s-prop">Bash hooks, .claude/hooks/</td><td class="s-val">8</td><td class="s-rem">Secrets and dangerous commands blocked before the tool call runs</td></tr>
+          <tr><td class="s-num">02</td><td class="s-prop">Coding rules, .claude/rules/</td><td class="s-val">15</td><td class="s-rem">Path-scoped, so they cost nothing until you touch matching files</td></tr>
+          <tr><td class="s-num">03</td><td class="s-prop">Focused reviewers, .claude/agents/</td><td class="s-val">10</td><td class="s-rem">Security, silent failures, performance, docs, data, frontend, PR tests</td></tr>
+          <tr><td class="s-num">04</td><td class="s-prop">Skills, .claude/skills/</td><td class="s-val">17 + 3</td><td class="s-rem">ship, tdd · debug-fix · pr-review · incident-rule · and more</td></tr>
+          <tr><td class="s-num">05</td><td class="s-prop">Engineering rules with incidents</td><td class="s-val">9</td><td class="s-rem">Each one paid for. docs/RULES.md names what broke and what it cost</td></tr>
+        </tbody>
+      </table>
+      <p class="sheet-note">The core fails closed (it blocks if jq is missing). Convenience hooks fail open, so they never get in your way.</p>
+    </div>
+  </section>
+
+  <section class="section" id="scars">
+    <span class="kicker">02 · Why your CLAUDE.md gets ignored</span>
+    <hr class="caption-rule">
+    <h2 class="section-title">Rules need scars</h2>
+    <p class="section-sub">You wrote “write clean code” and the model ignored it, because the rule describes a feeling, not a situation. There is no moment where the model can tell it is about to break it. A rule that wins names the exact moment, the exact wrong move, and what it cost.</p>
+    <div class="cells two">
+      <div class="cell-frame verdict rejected">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <span class="verdict-tag"><span class="mark">✗</span> No teeth, rejected</span>
+        <p class="verdict-body">“Don’t rewrite things unnecessarily.”</p>
+        <p class="why">A mood, not an instruction. No recognisable moment, no cost, nothing to trigger on.</p>
+      </div>
+      <div class="cell-frame verdict approved">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <span class="verdict-tag"><span class="mark">✓</span> Carries a scar, merged</span>
+        <p class="verdict-body">“Never replace a whole list to add one item. If an API looks like it can only replace, read its input schema before you believe that. On 2026-08-12 a project board’s status options were replaced twice to add one option each time. Both times the platform silently dropped all 63 card assignments. The input type had an <code>id</code> field the whole time.”</p>
+        <p class="why">Names the moment, the wrong move, and the cost. All nine rules ship with the dated incident behind them.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="quickstart">
+    <span class="kicker">03 · Quickstart</span>
+    <hr class="caption-rule">
+    <h2 class="section-title">Two ways in</h2>
+    <p class="section-sub">Take the plugin for the machinery, hooks included. Take seed.sh when you want the rules too, as files you own and can edit. seed.sh never overwrites an existing CLAUDE.md, .gitignore or .env.example.</p>
+    <div class="codeblock">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <header><span>Seed a new project</span><button type="button" class="btn btn-ghost copy-btn" data-copy="git clone https://github.com/eugnmueller-87/claude-blueprint.git
+cd my-new-project
+bash ../claude-blueprint/seed.sh .">Copy</button></header>
+      <pre><code><span class="c"># everything, as files you own</span>
+<span class="a">git</span> clone https://github.com/eugnmueller-87/claude-blueprint.git
+<span class="a">cd</span> my-new-project
+<span class="a">bash</span> ../claude-blueprint/seed.sh .
+<span class="c"># then: fill in CLAUDE.md, cp .env.example .env, git init</span></code></pre>
+    </div>
+    <div class="codeblock">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <header><span>Or install as a plugin</span><button type="button" class="btn btn-ghost copy-btn" data-copy="/plugin marketplace add eugnmueller-87/claude-blueprint">Copy</button></header>
+      <pre><code><span class="c"># hooks, reviewers and skills. Rules and CLAUDE.md stay with seed.sh</span>
+<span class="a">/plugin</span> marketplace add eugnmueller-87/claude-blueprint</code></pre>
+    </div>
+    <div class="codeblock">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <header><span>Test that the machinery works</span><button type="button" class="btn btn-ghost copy-btn" data-copy="echo '{&quot;tool_name&quot;:&quot;Write&quot;,&quot;tool_input&quot;:{&quot;file_path&quot;:&quot;x.py&quot;,&quot;content&quot;:&quot;key = os.environ[\&quot;ANTHROPIC_API_KEY\&quot;]&quot;}}' | bash .claude/hooks/scan-secrets.sh">Copy</button></header>
+      <pre><code><span class="c"># a hard-coded key should be blocked (exit 2); a clean env-var reference allowed (exit 0)</span>
+<span class="a">echo</span> '{"tool_name":"Write","tool_input":{...}}' | <span class="a">bash</span> .claude/hooks/scan-secrets.sh</code></pre>
+    </div>
+  </section>
+
+  <section class="quote">
+    <figure>
+      <blockquote>“A rule without an incident will not be merged. If it never hurt, it does not earn context space.”</blockquote>
+      <figcaption>The contributing bar, and the whole point. docs/RULES.md holds all nine incidents.</figcaption>
+    </figure>
+  </section>
+
+
+  <footer>MIT. Use it, fork it, sell it. No attribution required. Tuned for Python-first AI-agent and data work on Windows plus Git Bash. The hooks are bash, so macOS and Linux work too. By eugnmueller-87.</footer>
+</div>
+<script>
+document.querySelectorAll('.copy-btn').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(btn.dataset.copy); } catch (e) {}
+    const prev = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.textContent = prev; }, 1400);
+  });
+});
+</script>
+
+
+</body></html>
