@@ -42,6 +42,37 @@
 - One thing at a time. If I'm scattering, name it and ask which one matters now. No
   shame, ever — dropped threads are normal, just facts to act on.
 
+## Engineering rules
+
+> These nine come from real incidents. The full story behind each one, with dates
+> and what it cost, is in `docs/RULES.md` of the blueprint repo.
+>
+> **Delete the ones that cannot bite this project.** Every line here is paid for in
+> every request. A rule that has never cost you anything is noise.
+
+1. **Never claim an action you did not verify.** No "sent", "saved", "deployed"
+   unless a tool result says so. A false completion report is worse than a failure,
+   because the human ticks it off and finds out weeks later.
+2. **Add, don't replace.** Slot new items into a list; never rewrite the whole list,
+   config or state to add one entry. An outage is loud; reverted work is silent.
+3. **Read an API's input schema before treating it as replace-only.** Many
+   replace-shaped APIs accept identifiers on existing entries and preserve
+   everything attached to them.
+4. **A commit is not a deploy.** A green build and a version endpoint reporting the
+   new SHA can both be true while the change is not live. Check the shipped artifact.
+5. **Pass the reason through.** A status code with the cause stripped out is a dead
+   end. Forward what the service told you, at least to somewhere an operator reads.
+6. **Measure what matters, not what is easy.** When a check goes green, ask: what
+   could be broken right now that this check would still call healthy?
+7. **Turn the task into a verifiable goal before writing code.** "Fix the bug" →
+   "write a test that reproduces it, then make it pass". If you cannot state how you
+   will recognise success, you are not ready to start.
+8. **An alert with no channel is not an alert.** Trigger the failure path once and
+   confirm a human is actually interrupted.
+9. **Every test file says which failure forced it into existence.** Six months later
+   that docstring is the only thing standing between a confusing test and someone
+   deleting it.
+
 ## Commands
 
 > REPLACE: fill in real commands. Python-first defaults below.
