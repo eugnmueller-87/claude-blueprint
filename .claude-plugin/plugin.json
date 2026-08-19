@@ -22,5 +22,18 @@
   "skills": [
     "./.claude/skills/",
     "./.claude/skills/optional/"
-  ]
+  ],
+  "agents": [
+    "./.claude/agents/ai-agent-reviewer/ai-agent-reviewer.md",
+    "./.claude/agents/code-reviewer/code-reviewer.md",
+    "./.claude/agents/data-pipeline-reviewer/data-pipeline-reviewer.md",
+    "./.claude/agents/doc-reviewer/doc-reviewer.md",
+    "./.claude/agents/frontend-designer/frontend-designer.md",
+    "./.claude/agents/performance-reviewer/performance-reviewer.md",
+    "./.claude/agents/pr-test-analyzer/pr-test-analyzer.md",
+    "./.claude/agents/procurement-domain-reviewer/procurement-domain-reviewer.md",
+    "./.claude/agents/security-reviewer/security-reviewer.md",
+    "./.claude/agents/silent-failure-hunter/silent-failure-hunter.md"
+  ],
+  "hooks": "./hooks/hooks.json"
 }

@@ -54,19 +54,23 @@ All nine rules in `CLAUDE.template.md` come with the dated incident behind them 
 
 ## Two ways to use this
 
-| | You get | You do not get |
-|---|---|---|
-| **`seed.sh`** (the main way) | Everything: hooks, rules, reviewers, skills, `CLAUDE.md` | — |
-| **Plugin install** | The 20 skills, including `incident-rule` | Hooks, rules and reviewers |
-
-**Why the split, honestly:** the hooks are wired through `.claude/settings.json`,
-which is project configuration. A plugin install cannot bring them, and hooks are
-the half of this repo that actually cannot be reasoned around. **If you only install
-the plugin, you get the advisory half.** Use `seed.sh` for a new project.
-
 ```bash
 /plugin marketplace add eugnmueller-87/claude-blueprint
 ```
+
+| | You get | You do not get |
+|---|---|---|
+| **Plugin install** | The 8 hooks, the 10 reviewers, all 20 skills | `.claude/rules/`, `CLAUDE.md` |
+| **`seed.sh`** | Everything, as files you own and can edit | — |
+
+**The hooks ship with the plugin.** They run from `hooks/hooks.json` and resolve
+their scripts through `${CLAUDE_PLUGIN_ROOT}`, so the deterministic half comes
+along — a plugin install still blocks secrets and dangerous commands.
+
+**What the plugin cannot carry** is `.claude/rules/` and `CLAUDE.md`. Rules are
+path-scoped instruction files and the plugin format has no field for them, and
+`CLAUDE.md` is a template you fill in per project. **Take the plugin for the
+machinery, `seed.sh` when you want the rules too and want to own the files.**
 
 ---
 

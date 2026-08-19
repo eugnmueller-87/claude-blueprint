@@ -1,0 +1,93 @@
+{
+  "description": "Deterministic guard rails: blocks secrets, protected files and dangerous commands before the tool call runs. Formats and tests after edits.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/.claude/hooks/protect-files.sh",
+            "timeout": 10,
+            "statusMessage": "Checking file protections...",
+            "args": []
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/.claude/hooks/warn-large-files.sh",
+            "timeout": 10,
+            "statusMessage": "Checking for build artifacts...",
+            "args": []
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/.claude/hooks/scan-secrets.sh",
+            "timeout": 10,
+            "statusMessage": "Scanning for secrets...",
+            "args": []
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/.claude/hooks/block-dangerous-commands.sh",
+            "timeout": 10,
+            "statusMessage": "Checking command safety...",
+            "args": []
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/.claude/hooks/format-on-save.sh",
+            "timeout": 30,
+            "statusMessage": "Formatting...",
+            "args": []
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/.claude/hooks/auto-test.sh",
+            "timeout": 120,
+            "statusMessage": "Running matching tests...",
+            "args": []
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/.claude/hooks/session-start.sh",
+            "timeout": 10,
+            "statusMessage": "Loading project context...",
+            "args": []
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/.claude/hooks/notify.sh",
+            "timeout": 10,
+            "args": []
+          }
+        ]
+      }
+    ]
+  }
+}
