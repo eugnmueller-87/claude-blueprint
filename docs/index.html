@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>claude-blueprint</title>
+<title>claude-blueprint — guard rails that hold</title>
 <meta name="description" content="Seed a Claude Code project with guard rails that hold: hooks that block secrets deterministically, plus nine CLAUDE.md rules each anchored to a real incident.">
 <meta name="color-scheme" content="light dark">
 <link rel="canonical" href="https://eugnmueller-87.github.io/claude-blueprint/">
@@ -11,7 +11,7 @@
 <meta property="og:title" content="claude-blueprint">
 <meta property="og:description" content="Security is deterministic. Everything else is advisory. Hooks that block secrets before the model's intent matters, plus CLAUDE.md rules anchored to real incidents.">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 fill=%22%235980a6%22/><g stroke=%22%23f2f2f3%22 stroke-width=%228%22 fill=%22none%22><rect x=%2238%22 y=%2238%22 width=%2244%22 height=%2244%22/></g></svg>">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%20120%20120%27%3E%3Crect%20width=%27120%27%20height=%27120%27%20fill=%27%235980a6%27/%3E%3Crect%20x=%2738%27%20y=%2738%27%20width=%2744%27%20height=%2744%27%20fill=%27none%27%20stroke=%27%23f2f2f3%27%20stroke-width=%278%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
 :root {
@@ -30,7 +30,7 @@ body { margin: 0; text-wrap: pretty; }
 .nav a[aria-current='location'] { color: var(--color-accent-700); }
 @media (max-width: 560px) { .nav a { display: none; } }
 
-/* , caption rules , */
+/* — caption rules — */
 .kicker {
   display: block; font-size: 13px; line-height: var(--half);
   letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
@@ -41,7 +41,7 @@ body { margin: 0; text-wrap: pretty; }
 .caption-rule { height: 1px; border: 0; margin: 0 0 calc(var(--leading) - var(--half));
   background: var(--color-divider); }
 
-/* , hero , */
+/* — hero — */
 .hero { padding: calc(4 * var(--leading)) 0 calc(3 * var(--leading)); }
 .display {
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);
@@ -58,7 +58,7 @@ body { margin: 0; text-wrap: pretty; }
   text-box: trim-both cap alphabetic; }
 .hero .row { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--leading); align-items: center; }
 
-/* , command line (the one-command promise, drawn as an object) , */
+/* — command line (the one-command promise, drawn as an object) — */
 .cmd { display: flex; align-items: center; gap: var(--half); flex-wrap: wrap;
   margin-top: calc(1.5 * var(--leading));
   border: 1px solid var(--color-divider); position: relative;
@@ -68,7 +68,7 @@ body { margin: 0; text-wrap: pretty; }
 .cmd code .dim { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
 .cmd .btn { flex: 0 0 auto; }
 
-/* , spec plate , */
+/* — spec plate — */
 .sheet { padding: calc(3 * var(--leading)) 0 calc(2.5 * var(--leading)); }
 .plate { position: relative; border: 1px solid var(--color-divider); }
 .plate > .corner, .cell-frame > .corner, .cmd > .corner, .codeblock > .corner {
@@ -112,7 +112,7 @@ body { margin: 0; text-wrap: pretty; }
   font-size: 13px; line-height: var(--leading);
   color: color-mix(in srgb, var(--color-text) 70%, transparent); }
 
-/* , sections & wireframe cells , */
+/* — sections & wireframe cells — */
 .section { padding: calc(3 * var(--leading)) 0 calc(2.5 * var(--leading)); }
 .section > .caption-rule { margin-bottom: calc(var(--leading) + 8px); }
 .section-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
@@ -141,7 +141,7 @@ body { margin: 0; text-wrap: pretty; }
   width: 9px; height: 1px; background: var(--color-accent); }
 .cell-frame ul code, .verdict-body code { font-family: var(--font-mono); font-size: 0.86em; }
 
-/* , the compare (rules need scars) , */
+/* — the compare (rules need scars) — */
 .verdict { position: relative; border: 1px solid var(--color-divider); padding: var(--leading); }
 .verdict-tag { display: inline-flex; align-items: center; gap: 8px;
   font-size: 13px; line-height: var(--half); letter-spacing: 0.08em;
@@ -158,7 +158,7 @@ body { margin: 0; text-wrap: pretty; }
   margin: var(--leading) 0 0; padding-top: var(--half);
   border-top: 1px solid var(--color-divider); text-box: trim-both cap alphabetic; }
 
-/* , the nine rules , */
+/* — the nine rules — */
 .rules { display: grid; grid-template-columns: repeat(3, 1fr);
   gap: calc(1.5 * var(--leading)) clamp(20px, 3vw, 48px); margin-top: calc(1.5 * var(--leading)); }
 .rule { border-top: 1px solid var(--color-divider); padding-top: var(--half); }
@@ -171,7 +171,7 @@ body { margin: 0; text-wrap: pretty; }
 .rule p { font-size: 14px; line-height: var(--leading); margin: 4px 0 0;
   color: color-mix(in srgb, var(--color-text) 70%, transparent); }
 
-/* , quickstart code , */
+/* — quickstart code — */
 .codeblock { position: relative; border: 1px solid var(--color-divider);
   margin-top: calc(1.5 * var(--leading)); }
 .codeblock header { display: flex; align-items: center; justify-content: space-between;
@@ -186,7 +186,7 @@ body { margin: 0; text-wrap: pretty; }
 .codeblock pre .a { color: var(--color-accent-700); }
 .copy-btn { font-size: 12px; padding: 4px 10px; min-height: 0; }
 
-/* , quote , */
+/* — quote — */
 .quote { padding: calc(2.5 * var(--leading)) 0 calc(3.5 * var(--leading)); }
 .quote blockquote {
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);
@@ -204,7 +204,7 @@ body { margin: 0; text-wrap: pretty; }
   .quote blockquote, .quote figcaption { text-indent: 0; }
 }
 
-/* , close , */
+/* — close — */
 .close { padding: calc(2.5 * var(--leading)) 0 calc(2 * var(--leading)); }
 .close h3 { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
   font-size: 24px; line-height: var(--leading); letter-spacing: 0.02em; text-transform: uppercase;
@@ -216,7 +216,7 @@ body { margin: 0; text-wrap: pretty; }
 footer { padding: calc(2 * var(--leading)) 0; font-size: 13px; line-height: var(--leading);
   color: color-mix(in srgb, var(--color-text) 70%, transparent); }
 
-/* , responsive , */
+/* — responsive — */
 @media (max-width: 980px) {
   .rules { grid-template-columns: repeat(2, 1fr); }
 }
@@ -279,11 +279,11 @@ footer { padding: calc(2 * var(--leading)) 0; font-size: 13px; line-height: var(
     </div>
   </section>
 
-  <section class="sheet" id="box" aria-label="claude-blueprint , contents of the box">
+  <section class="sheet" id="box" aria-label="claude-blueprint — contents of the box">
     <div class="plate">
       <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
       <header class="title-block">
-        <span class="tb-title">claude-blueprint , contents of the box</span>
+        <span class="tb-title">claude-blueprint — contents of the box</span>
         <span class="tb-cell">CB-100</span>
         <span class="tb-cell">MIT</span>
         <span class="tb-cell">Sheet 01 of 03</span>
@@ -295,10 +295,10 @@ footer { padding: calc(2 * var(--leading)) 0; font-size: 13px; line-height: var(
         </thead>
         <tbody>
           <tr><td class="s-num">01</td><td class="s-prop">Bash hooks, .claude/hooks/</td><td class="s-val">8</td><td class="s-rem">Secrets and dangerous commands blocked before the tool call runs</td></tr>
-          <tr><td class="s-num">02</td><td class="s-prop">Coding rules, .claude/rules/</td><td class="s-val">15</td><td class="s-rem">Path-scoped, so they cost nothing until you touch matching files</td></tr>
+          <tr><td class="s-num">02</td><td class="s-prop">Coding rules, .claude/rules/</td><td class="s-val">15</td><td class="s-rem">Path-scoped — they cost nothing until you touch matching files</td></tr>
           <tr><td class="s-num">03</td><td class="s-prop">Focused reviewers, .claude/agents/</td><td class="s-val">10</td><td class="s-rem">Security, silent failures, performance, docs, data, frontend, PR tests</td></tr>
-          <tr><td class="s-num">04</td><td class="s-prop">Skills, .claude/skills/</td><td class="s-val">17 + 3</td><td class="s-rem">ship, tdd · debug-fix · pr-review · incident-rule · and more</td></tr>
-          <tr><td class="s-num">05</td><td class="s-prop">Engineering rules with incidents</td><td class="s-val">9</td><td class="s-rem">Each one paid for. docs/RULES.md names what broke and what it cost</td></tr>
+          <tr><td class="s-num">04</td><td class="s-prop">Skills, .claude/skills/</td><td class="s-val">17 + 3</td><td class="s-rem">ship · tdd · debug-fix · pr-review · incident-rule · and more</td></tr>
+          <tr><td class="s-num">05</td><td class="s-prop">Engineering rules with incidents</td><td class="s-val">9</td><td class="s-rem">Each one paid for — docs/RULES.md names what broke and what it cost</td></tr>
         </tbody>
       </table>
       <p class="sheet-note">The core fails closed (it blocks if jq is missing). Convenience hooks fail open, so they never get in your way.</p>
@@ -309,17 +309,17 @@ footer { padding: calc(2 * var(--leading)) 0; font-size: 13px; line-height: var(
     <span class="kicker">02 · Why your CLAUDE.md gets ignored</span>
     <hr class="caption-rule">
     <h2 class="section-title">Rules need scars</h2>
-    <p class="section-sub">You wrote “write clean code” and the model ignored it, because the rule describes a feeling, not a situation. There is no moment where the model can tell it is about to break it. A rule that wins names the exact moment, the exact wrong move, and what it cost.</p>
+    <p class="section-sub">You wrote “write clean code” and the model ignored it — because the rule describes a feeling, not a situation. There is no moment where the model can tell it is about to break it. A rule that wins names the exact moment, the exact wrong move, and what it cost.</p>
     <div class="cells two">
       <div class="cell-frame verdict rejected">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <span class="verdict-tag"><span class="mark">✗</span> No teeth, rejected</span>
+        <span class="verdict-tag"><span class="mark">✗</span> No teeth — rejected</span>
         <p class="verdict-body">“Don’t rewrite things unnecessarily.”</p>
         <p class="why">A mood, not an instruction. No recognisable moment, no cost, nothing to trigger on.</p>
       </div>
       <div class="cell-frame verdict approved">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <span class="verdict-tag"><span class="mark">✓</span> Carries a scar, merged</span>
+        <span class="verdict-tag"><span class="mark">✓</span> Carries a scar — merged</span>
         <p class="verdict-body">“Never replace a whole list to add one item. If an API looks like it can only replace, read its input schema before you believe that. On 2026-08-12 a project board’s status options were replaced twice to add one option each time. Both times the platform silently dropped all 63 card assignments. The input type had an <code>id</code> field the whole time.”</p>
         <p class="why">Names the moment, the wrong move, and the cost. All nine rules ship with the dated incident behind them.</p>
       </div>
@@ -330,7 +330,7 @@ footer { padding: calc(2 * var(--leading)) 0; font-size: 13px; line-height: var(
     <span class="kicker">03 · Quickstart</span>
     <hr class="caption-rule">
     <h2 class="section-title">Two ways in</h2>
-    <p class="section-sub">Take the plugin for the machinery, hooks included. Take seed.sh when you want the rules too, as files you own and can edit. seed.sh never overwrites an existing CLAUDE.md, .gitignore or .env.example.</p>
+    <p class="section-sub">Take the plugin for the machinery — hooks included. Take seed.sh when you want the rules too, as files you own and can edit. seed.sh never overwrites an existing CLAUDE.md, .gitignore or .env.example.</p>
     <div class="codeblock">
       <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
       <header><span>Seed a new project</span><button type="button" class="btn btn-ghost copy-btn" data-copy="git clone https://github.com/eugnmueller-87/claude-blueprint.git
@@ -345,7 +345,7 @@ bash ../claude-blueprint/seed.sh .">Copy</button></header>
     <div class="codeblock">
       <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
       <header><span>Or install as a plugin</span><button type="button" class="btn btn-ghost copy-btn" data-copy="/plugin marketplace add eugnmueller-87/claude-blueprint">Copy</button></header>
-      <pre><code><span class="c"># hooks, reviewers and skills. Rules and CLAUDE.md stay with seed.sh</span>
+      <pre><code><span class="c"># hooks, reviewers and skills — rules and CLAUDE.md stay with seed.sh</span>
 <span class="a">/plugin</span> marketplace add eugnmueller-87/claude-blueprint</code></pre>
     </div>
     <div class="codeblock">
@@ -359,12 +359,12 @@ bash ../claude-blueprint/seed.sh .">Copy</button></header>
   <section class="quote">
     <figure>
       <blockquote>“A rule without an incident will not be merged. If it never hurt, it does not earn context space.”</blockquote>
-      <figcaption>The contributing bar, and the whole point. docs/RULES.md holds all nine incidents.</figcaption>
+      <figcaption>— the contributing bar, and the whole point — docs/RULES.md holds all nine incidents</figcaption>
     </figure>
   </section>
 
 
-  <footer>MIT. Use it, fork it, sell it. No attribution required. Tuned for Python-first AI-agent and data work on Windows plus Git Bash. The hooks are bash, so macOS and Linux work too. By eugnmueller-87.</footer>
+  <footer>MIT. Use it, fork it, sell it — no attribution required. Tuned for Python-first AI-agent and data work on Windows + Git Bash; the hooks are bash, so macOS and Linux work too. By eugnmueller-87.</footer>
 </div>
 <script>
 document.querySelectorAll('.copy-btn').forEach((btn) => {
