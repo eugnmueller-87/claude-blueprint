@@ -65,11 +65,11 @@ All nine rules in `CLAUDE.template.md` come with the dated incident behind them 
 | | You get | You do not get |
 |---|---|---|
 | **Plugin install** | The 8 hooks, the 10 reviewers, all 20 skills | `.claude/rules/`, `CLAUDE.md` |
-| **`seed.sh`** | Everything, as files you own and can edit | — |
+| **`seed.sh`** | Everything, as files you own and can edit | none |
 
 **The hooks ship with the plugin.** They run from `hooks/hooks.json` and resolve
 their scripts through `${CLAUDE_PLUGIN_ROOT}`, so the deterministic half comes
-along — a plugin install still blocks secrets and dangerous commands.
+along. A plugin install still blocks secrets and dangerous commands.
 
 **What the plugin cannot carry** is `.claude/rules/` and `CLAUDE.md`. Rules are
 path-scoped instruction files and the plugin format has no field for them, and
@@ -124,18 +124,18 @@ macOS and Linux work too. The rules and skills are stack-agnostic.
 
 ## The three tiers
 
-**MANDATORY CORE — never delete.**
+**MANDATORY CORE: never delete.**
 `scan-secrets.sh`, `protect-files.sh`, the secret blocks in `.gitignore`, the `deny`
 list in `settings.json`, and `block-dangerous-commands.sh`. This is the no-secrets
 guarantee, enforced deterministically rather than by hoping the model remembers.
 Also the Operating Rules block in `CLAUDE.template.md`.
 
-**RECOMMENDED — on by default, safe to trim.**
+**RECOMMENDED: on by default, safe to trim.**
 `warn-large-files.sh`, `format-on-save.sh`, `auto-test.sh`, `session-start.sh`,
 `notify.sh`, the `python-quality` and `ai-agents` rules, the `security-reviewer` and
 `silent-failure-hunter` agents.
 
-**OPTIONAL — path-scoped, cost nothing until you touch matching files.**
+**OPTIONAL: path-scoped, cost nothing until you touch matching files.**
 `data-pandas-sql`, `data-privacy-procurement`, `rag-retrieval`, `frontend`,
 `db-migrations`, `evals`, and the corresponding reviewers.
 
@@ -176,7 +176,7 @@ avoidable, run it. It asks four questions:
 4. How would we recognise the same moment next time?
 
 Then it writes the rule in your voice and appends it to your `CLAUDE.md`. **It also
-refuses to write one when nothing was actually at stake** — because every rule is
+refuses to write one when nothing was actually at stake**, because every rule is
 paid for in every future request.
 
 ---
@@ -199,7 +199,7 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"x.py","content":"key = os.
 
 1. **Copy the machinery, not the docs.** `cp -R claude-blueprint/.claude/ <proj>/`.
    If `.claude/` already exists, copy `hooks/`, `rules/`, `agents/`, `skills/`
-   individually and **deep-merge** `settings.json` by hand — append your `allow`
+   individually and **deep-merge** `settings.json` by hand. Append your `allow`
    entries and the `hooks` blocks, do not clobber existing permissions.
 2. **Merge `.gitignore`**, then immediately check nothing sensitive is already
    tracked:
@@ -209,7 +209,7 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"x.py","content":"key = os.
    Anything it returns is already in history. **Rotate it**, then `git rm --cached`.
 3. **`CLAUDE.md`:** paste the Operating Rules block from `CLAUDE.template.md` at the
    top; keep your own Commands and Architecture sections.
-4. **`chmod +x .claude/hooks/*.sh`** — required for the hooks to run.
+4. **`chmod +x .claude/hooks/*.sh`** (required for the hooks to run).
 5. **Verify:** run the scan-secrets test above and confirm it blocks.
 
 ---
@@ -217,7 +217,7 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"x.py","content":"key = os.
 ## Prerequisites
 
 - **Bash.** Git Bash on Windows, native elsewhere.
-- **`jq`** — required by the security hooks. Without it they **fail closed**.
+- **`jq`.** Required by the security hooks. Without it they **fail closed**.
   `winget install jqlang.jq` · `brew install jq` · `apt install jq`
 - Optional: `ruff` / `black`, `prettier`, `pytest`, `gh`.
 
